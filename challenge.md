@@ -72,8 +72,8 @@ Your assignment is to build a complete, production-ready REST API for a coffee s
    - Response must include pricing details for each variation as shown in the catalog
 
 2. **Place a New Order** (`POST /orders`)
-   - Must accept order details including product selection and variations
-   - Must calculate the total price correctly based on base prices and variation surcharges
+   - Must accept a list of products with the variations
+   - Must calculate the total price correctly based on base prices and variations
    - **Critical Requirement:** Integrate with the payment processing mock service
      ```http
      POST https://challenge.trio.dev/api/v1/payment?amount={TOTAL_AMOUNT}
