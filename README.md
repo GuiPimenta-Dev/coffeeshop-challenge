@@ -84,32 +84,3 @@ This will:
 1. Create a directory called "john_smith"
 2. Clone the specified repository into it
 3. Copy evaluation.md as README.md to the repository
-
-## Automated Evaluation
-
-This repository includes scripts and workflows for automated evaluation:
-
-### Summarizing Evaluations
-
-The `.github/scripts/summarize_grades.py` script:
-- Scans all candidate directories for README.md files
-- Extracts the total points from each evaluation
-- Updates the main README.md with summary statistics
-- Runs automatically via GitHub Actions when evaluations change
-
-### AI Feedback Generation
-
-The `.github/scripts/generate_feedback.py` script:
-- Analyzes completed evaluations using Groq's AI API
-- Generates personalized feedback for each candidate
-- Appends feedback directly to each candidate's README.md file
-- Can be triggered manually through GitHub Actions workflow
-
-### GitHub Actions
-
-The repository includes a GitHub Actions workflow that:
-- Automatically updates statistics when evaluations change
-- Can be manually triggered to generate AI feedback
-- Commits changes back to the repository automatically
-
-See `.github/workflows/evaluation.yml` for implementation details.
