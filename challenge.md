@@ -36,7 +36,7 @@ role: manager
 ### **Managers**
 Managers are responsible for overseeing order processing and ensuring smooth operations. Their main tasks include to change the status of an order:
 
-- Orders can have one of five statuses: **Waiting, Preparation, Ready, and Delivered**.
+- Orders can have one of the four statuses: **Waiting, Preparation, Ready, and Delivered**.
 - Status transitions must follow one of this strict sequence:
   - **Waiting** → **Preparation** → **Ready** → **Delivered**
 
