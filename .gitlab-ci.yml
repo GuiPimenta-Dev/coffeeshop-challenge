@@ -1,0 +1,71 @@
+---
+# GitLab CI/CD pipeline configuration for processing candidate evaluations
+
+image: python:3.10
+
+# Define variables
+variables:
+  # Configure Git for the pipeline
+  GIT_STRATEGY: clone
+  GIT_DEPTH: 0
+  # Use python's unbuffered mode and disable bytecode generation
+  PYTHONUNBUFFERED: "1"
+  PYTHONDONTWRITEBYTECODE: "1"
+
+# Define the stages of the pipeline
+stages:
+  - evaluate
+
+# Define the job
+process-evaluations:
+  stage: evaluate
+  # Run on pushes to the main branch or when manually triggered
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+    - if: $CI_PIPELINE_SOURCE == "web"
+
+  before_script:
+    # Set up Git
+    - git config --global user.email "gitlab-ci@example.com"
+    - git config --global user.name "GitLab CI/CD"
+    
+    # Install dependencies
+    - pip install --upgrade pip
+    - pip install requests
+
+  script:
+    # Run the evaluation summary script
+    - python .github/scripts/summarize_grades.py
+    
+    # Generate AI feedback
+    - python .github/scripts/generate_feedback.py
+    
+    # Commit and push changes if there are any
+    - |
+      if git diff --quiet README.md; then
+        echo "No changes to README.md"
+      else
+        # Add changes
+        git add README.md
+        git add */README.md
+        
+        # Commit changes
+        git commit -m "Update evaluation results and feedback [skip ci]"
+        
+        # Push using CI_JOB_TOKEN for authentication
+        git push "https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" HEAD:$CI_COMMIT_BRANCH
+      fi
+  
+  # Only run this job on the default branch to avoid running multiple pipelines for the same commit
+  only:
+    - master
+    - web  # Allow manual triggering
+
+  # Cache dependencies between pipeline runs
+  cache:
+    paths:
+      - .pip/
+
+  # Define environment variables needed for the job
+  variables:
+    GROQ_API_KEY: $GROQ_API_KEY  # This variable should be set in GitLab CI/CD settings
