@@ -36,14 +36,12 @@ role: manager
 ### **Managers**
 Managers are responsible for overseeing order processing and ensuring smooth operations. Their main tasks include to change the status of an order:
 
-- Orders can have one of five statuses: **Waiting, Preparation, Ready, Delivered, and Canceled**.
+- Orders can have one of five statuses: **Waiting, Preparation, Ready, and Delivered**.
 - Status transitions must follow one of this strict sequence:
   - **Waiting** → **Preparation** → **Ready** → **Delivered**
 
 ### Customers:
 - Order and customize their orders with several options from the catalog below.
-- A customer can cancel its own order if the order has status `Waiting`.
- - **Waiting** → **Canceled** 
 
 ## Catalog with Pricing
 
@@ -65,55 +63,46 @@ Managers are responsible for overseeing order processing and ensuring smooth ope
 
 ## Tasks
 
-Create the following **REST API endpoints**.
-Any customer should be able to consume them using a **secure way**:
+Your assignment is to build a complete, production-ready REST API for a coffee shop order management system. The application must include integration with external mock services to simulate real-world scenarios. Below are the detailed requirements for each endpoint:
 
-- **View Menu** (list of products with pricing)
-- **Place a new order** (calculate the total price based on variations and process payment)
-  - When placing an order, payment must be processed using the payment mock service:
-  ```http
-  GET https://challenge.trio.dev/api/v1/payment?amount={TOTAL_AMOUNT}
-  ```
-  - The response from the payment mock service should be logged to the terminal
-  - Orders should only be created if payment is successful
+### Required Endpoints
 
-- **View order details** (product list, pricing & order status)
+1. **View Menu** (`GET /menu`)
+   - Must return a complete list of products with their base prices and all available variations
+   - Response must include pricing details for each variation as shown in the catalog
 
-- **Update Orders Status** (the response from the email mock service should be logged to the terminal)
-- Customers must receive an email notification whenever their order status changes. To simulate this, use the following notification mock service:  
+2. **Place a New Order** (`POST /orders`)
+   - Must accept order details including product selection and variations
+   - Must calculate the total price correctly based on base prices and variation surcharges
+   - **Critical Requirement:** Integrate with the payment processing mock service
+     ```http
+     POST https://challenge.trio.dev/api/v1/payment?amount={TOTAL_AMOUNT}
+     ```
+   - Must display the complete payment service response in the terminal
+   - Orders should ONLY be created if the payment service returns a successful response
+   - All new orders must be created with the initial status of `Waiting`
+   - The API should return appropriate error messages if payment fails
 
-  ```http
-  GET https://challenge.trio.dev/api/v1/notify?status={ORDER_STATUS}
-  ```
+3. **View Order Details** (`GET /orders/{id}`)
+   - Must return complete order information including:
+     - All ordered items with their variations
+     - Individual and total pricing
+     - Current order status
+     - Order creation timestamp
 
-  **Example:** Sending a notification for an order in the `Waiting` status:  
-  [https://challenge.trio.dev/api/v1/notify?status=waiting](https://trio.challenge.com/api/v1/notify?status=waiting)  
-
-  - The response from the notification mock service should be logged to the terminal
-
-- **Cancel Orders** (only if it has `Waiting` status)
+4. **Update Order Status** (`PATCH /orders/{id}/status`)
+   - **Manager Only:** Endpoint must enforce role-based access (only managers can update status)
+   - Must validate that status transitions follow the allowed sequence:
+     - **Waiting** → **Preparation** → **Ready** → **Delivered**
+   - **Critical Requirement:** Must integrate with the notification mock service after every successful status update
+     ```http
+     POST https://challenge.trio.dev/api/v1/notify?status={ORDER_STATUS}
+     ```
+   - Must display the complete notification service response in the terminal
 
 # Evaluation
 
 Present your solution using the framework of your choice, justifying your selection. During the evaluation, we will discuss any missing aspects.
-
-## What will be evaluated
-
-- **Documentation**: Clear README with project description, setup instructions, and API documentation
-- **Code Quality**: Small, focused functions with clear responsibilities and separation of business logic
-- **Architecture**: Logical project structure with proper separation of layers and effective design patterns
-- **Implementation**: Correct API endpoints with proper RESTful principles and status codes
-- **Business Logic**: Accurate order processing, price calculations, and role-based authorization
-- **Resilience**: Asynchronous processing and retry mechanisms for external service calls
-- **Security**: Input validation and appropriate error handling
-- **Testing**: Comprehensive test coverage with both unit and integration tests
-
-## **What will be a differencial**
-
-- Use of Docker for environment consistency.
-- Implementation of design patterns for maintainable architecture.  
-- Justification of design and implementation choices.  
-- Proper component decoupling for modularity and flexibility.  
 
 ## **Use of AI in Development**  
 
