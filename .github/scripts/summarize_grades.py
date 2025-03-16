@@ -93,7 +93,7 @@ def update_readme_with_results(results):
     results.sort(key=lambda x: (-x['points'], x['candidate'].lower()))
     
     # Create the results section
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = datetime.now().strftime("%Y-%m-%d")
     results_section = f"""## Evaluation Results
 
 *Last updated: {timestamp}*
