@@ -90,3 +90,22 @@ Total of Points: 27.5
 Guilherme has demonstrated strong software engineering fundamentals with a well-structured project that follows good design patterns and code organization principles. The application implements most of the core business requirements with good test coverage.
 
 However, the solution falls just short of passing (27.5 vs 28 points required) primarily due to missing resilience features and incomplete implementation of status transition notifications. With some additional work on these areas, this could be a very strong submission.
+
+---
+
+#  Feedback
+
+Here is the feedback:
+
+## Strengths
+- Guilherme demonstrated excellent code quality with clear separation of concerns and effective use of design patterns, as seen in the Code Quality & Maintainability section.
+- The project structure was well-organized with logical folder organization and clear separation of layers, making it easy to navigate and maintain.
+- The test coverage was sufficient, with comprehensive unit tests for critical functionality, ensuring the reliability of the application.
+
+## Areas for Improvement
+- The solution lacked implementation of resilience patterns, such as asynchronous handling of external service calls and retry mechanisms for external service failures, which are crucial for a robust application.
+- API documentation and endpoint examples were missing, making it difficult for others to understand and use the API.
+- The implementation of email notification printing for status transitions was incomplete, which is an important feature for the application.
+
+## Overall Assessment
+Guilherme's submission demonstrated strong software engineering fundamentals, but fell short of passing due to missing resilience features and incomplete implementation of status transition notifications. With additional work on these areas, this could be a strong submission. Focus on implementing resilience patterns and completing the missing features to take the application to the next level.
