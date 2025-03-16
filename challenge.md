@@ -102,20 +102,22 @@ Your assignment is to build a complete, production-ready REST API for a coffee s
 
 # Evaluation
 
-Present your solution using the framework of your choice, justifying your selection. During the evaluation, we will discuss any missing aspects.
+Present your solution using the language/framework of your choice, justifying your selection. During the evaluation, we will discuss any missing aspects.
 
-## **Use of AI in Development**  
-
-We have no issue with the use of AI to assist in development—after all, it’s a tool we all use daily.  
-However, what truly matters is your ability to **justify your decisions** and explain your reasoning.  
+What truly matters to us is your ability to analyze situations critically, justify your decisions, and clearly explain your reasoning.
 
 **Feel free to leave comments in your code explaining your thought process and the rationale behind your choices.**  
 
 ### **Examples:**  
 
 ```python
-# Given the simplicity of this test case, I chose to use X, Y, and Z.  
+# Given the simplicity of the use case, I chose to use X, Y, and Z.  
 # However, in a production environment, A, B, or C might be a better choice.  
 
 # This class is a simplified representation of X, Y, and Z.  
 # In a production setting, we could consider a more robust approach, such as A, B, or C. 
+```
+
+<div align="right">
+  <em>"Clean code always looks like it was written by someone who cares." - Michael Feathers</em>
+</div>
