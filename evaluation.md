@@ -1,23 +1,29 @@
 ## Evaluation Checklist
 
-For each criterion, assign a score up to the maximum specified:
+For each criterion, mark with an “x” for the maximum score or assign a score up to the allowed maximum.
 
-### 1. README Documentation
-- [ ] Contains project description and features *(1.0)*
-- [ ] Includes setup instructions (installation, environment variables) *(1.0)*
-- [ ] Documents API endpoints with methods and examples *(2.0)*
-- [ ] Provides testing instructions *(1.0)*
+### 1. README & Video
+- [ ] Provides testing instructions *(0.5)*
+- [ ] Provides coverage informations *(0.5)*
+- [ ] Documents API endpoints with methods and examples *(1.0)*
+- [ ] Provides step-by-step guidance for running the project locally. *(1.0)*
+- [ ]	Video explains key decisions and trade-offs *(1.0)*
+- [ ] Video includes a demo of the main functionalities *(1.0)*
 
 ### 2. Code Quality & Maintainability
 #### 2.1 Code Maintainability
-- [ ] Clear separation between business logic and infrastructure code *(3.0)*
+- [ ] Variables and functions clearly describe their purpose. *(1.0)*
+- [ ] Code is easy to follow with appropriate spacing and structure *(1.0)*
+- [ ] Handles errors gracefully with meaningful messages and avoids exposing internal logic. *(1.0)*
+- [ ] Clear separation between business logic and infrastructure code *(2.0)*
 
 #### 2.2 Design Patterns
-- [ ] Overall effective use of design patterns *(3.0)*
+- [ ] Overall effective use of design patterns *(2.0)*
 
 #### 2.3 Project Structure
-- [ ] Logical folder organization *(2.0)*
-- [ ] Clear separation of layers (routes, controllers, services) *(2.0)*
+- [ ] Middleware is properly utilized for authentication. *(1.0)*
+- [ ] Files and folders are structured in a way that makes sense for the project. (1.0)
+- [ ] Adheres to standard project structures for the chosen framework or language. *(1.0)*
 
 ### 3. Infrastructure & Tooling
 #### 3.1 Infrastructure
@@ -34,13 +40,14 @@ For each criterion, assign a score up to the maximum specified:
 
 #### 4.2 Business Logic
 - [ ] Order status transitions follow the required sequences *(1.0)*
+- [ ] Payment messages are being printed after payment*(1.0)*
 - [ ] Email messages are being printed after each status transition*(1.0)*
 - [ ] Price calculations correctly handle all product variations *(1.0)*
 - [ ] Role-based access control properly enforced *(1.0)*
 
 #### 4.3 Performance & Resilience
-- [ ] Asynchronous handling of external service calls *(2.5)*
-- [ ] Retry mechanisms for external service failures *(2.5)*
+- [ ] Asynchronous handling of external service calls *(2.0)*
+- [ ] Retry mechanisms for external service failures *(2.0)*
 
 ### 5. Tests
 #### 5.1 Test Coverage
@@ -88,3 +95,4 @@ Total of Points:
 ### Final Comments
 
 
+### Feedback
