@@ -4,7 +4,8 @@ Script to extract final grades from candidate evaluation README files.
 It scans all directories in the current path, looks for README.md files,
 and extracts the total points assigned to each candidate.
 
-The script also updates the main README.md with evaluation statistics.
+The script creates a candidates.md file with evaluation statistics and 
+a table of all candidates sorted by their grades.
 
 If any folder is missing a grade, the script will exit with an error message.
 """
@@ -14,12 +15,11 @@ import re
 import sys
 from pathlib import Path
 from datetime import datetime
+import statistics
 
 # Constants
 PASSING_THRESHOLD = 28  # Minimum points required to pass
-README_PATH = Path("./README.md")
-RESULTS_SECTION_START = "## Evaluation Results"
-RESULTS_SECTION_END = "## Overview"
+CANDIDATES_PATH = Path("./candidates.md")
 
 class GradingError(Exception):
     """Custom exception for grading errors"""
@@ -77,60 +77,66 @@ def get_all_grades():
     return results
 
 
-def update_readme_with_results(results):
-    """Update the main README.md with evaluation results."""
+def create_candidates_md(results):
+    """Create a candidates.md file with statistics and grades table."""
     if not results:
         return
         
+    # Sort results by points (highest first)
+    results.sort(key=lambda x: (-x['points'], x['candidate'].lower()))
+    
     # Calculate summary statistics
     total_candidates = len(results)
-    total_points = sum(r['points'] for r in results)
+    all_points = [r['points'] for r in results]
+    total_points = sum(all_points)
     average_points = total_points / total_candidates if total_candidates > 0 else 0
     passed_candidates = sum(1 for r in results if r['passed'])
     failed_candidates = total_candidates - passed_candidates
     
-    # Sort results by points (highest first)
-    results.sort(key=lambda x: (-x['points'], x['candidate'].lower()))
+    # Additional statistics
+    top_grade = max(all_points) if all_points else 0
+    min_grade = min(all_points) if all_points else 0
+    median_grade = statistics.median(all_points) if all_points else 0
     
-    # Create the results section
+    # Create the document
     timestamp = datetime.now().strftime("%Y-%m-%d")
-    results_section = f"""## Evaluation Results
+    
+    content = f"""# Candidate Evaluation Results
 
 *Last updated: {timestamp}*
 
-### Summary Statistics
-- **Total candidates evaluated:** {total_candidates}
-- **Average score:** {average_points:.2f} points
-- **Pass rate:** {passed_candidates}/{total_candidates} ({passed_candidates/total_candidates*100:.1f}%)
-- **Failed candidates:** {failed_candidates} ({failed_candidates/total_candidates*100:.1f}%)
+## Summary Statistics
 
+| Metric | Value |
+|--------|-------|
+| Total candidates | {total_candidates} |
+| Top grade | {top_grade} |
+| Minimum grade | {min_grade} |
+| Average grade | {average_points:.2f} |
+| Median grade | {median_grade} |
+| Approved candidates | {passed_candidates} ({passed_candidates/total_candidates*100:.1f}%) |
+| Failed candidates | {failed_candidates} ({failed_candidates/total_candidates*100:.1f}%) |
+
+## All Candidates
+
+| Candidate | Grade | Status |
+|-----------|-------|--------|
 """
     
-    results_section += "\n"
+    # Add each candidate to the table
+    for r in results:
+        status = "PASS" if r['passed'] else "FAIL"
+        content += f"| {r['candidate']} | {r['points']} | {status} |\n"
     
     try:
-        # Read the current README
-        with open(README_PATH, 'r', encoding='utf-8') as file:
-            content = file.read()
-        
-        # Check if the results section already exists
-        if RESULTS_SECTION_START in content:
-            # Replace the existing results section
-            pattern = f"{RESULTS_SECTION_START}.*?{RESULTS_SECTION_END}"
-            updated_content = re.sub(pattern, f"{results_section}{RESULTS_SECTION_END}", content, flags=re.DOTALL)
-        else:
-            # Add the results section at the top, after the title
-            title_end = content.find('\n', content.find('#'))
-            updated_content = content[:title_end + 1] + "\n\n" + results_section + "\n" + content[title_end + 1:]
-        
-        # Write the updated content back to the README
-        with open(README_PATH, 'w', encoding='utf-8') as file:
-            file.write(updated_content)
+        # Write the content to candidates.md
+        with open(CANDIDATES_PATH, 'w', encoding='utf-8') as file:
+            file.write(content)
             
-        print(f"README.md updated with evaluation results.")
+        print(f"candidates.md created with evaluation results.")
         
     except Exception as e:
-        print(f"WARNING: Failed to update README.md: {str(e)}")
+        print(f"WARNING: Failed to create candidates.md: {str(e)}")
 
 
 def main():
@@ -159,8 +165,8 @@ def main():
         print(f"Passed candidates: {passed_candidates} ({passed_candidates/total_candidates*100:.1f}%)")
         print(f"Failed candidates: {failed_candidates} ({failed_candidates/total_candidates*100:.1f}%)")
         
-        # Update the README with the evaluation results
-        update_readme_with_results(results)
+        # Create candidates.md with the evaluation results
+        create_candidates_md(results)
         
     except GradingError as e:
         print(f"\nERROR: {str(e)}")
