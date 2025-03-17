@@ -31,7 +31,7 @@ jobs:
       
       - name: Run summary script
         run: |
-          python .github/scripts/summarize_grades.py
+          python .github/actions/summarize_grades.py
       
       - name: Commit changes if README is updated
         uses: stefanzweifel/git-auto-commit-action@v4
