@@ -37,4 +37,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Update evaluation results and feedback [skip ci]"
-          file_pattern: "README.md */README.md"
+          file_pattern: "candidates.md"
