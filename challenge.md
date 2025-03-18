@@ -96,7 +96,7 @@ Your assignment is to build a complete, production-ready REST API for a coffee s
      - **Waiting** → **Preparation** → **Ready** → **Delivered**
    - **Critical Requirement:** Must integrate with the notification mock service after every successful status update
      ```http
-     GET https://challenge.trio.dev/api/v1/notify?status={ORDER_STATUS}
+     GET https://challenge.trio.dev/api/v1/notification?status={ORDER_STATUS}
      ```
    - Must display the complete notification service response in the terminal
 
