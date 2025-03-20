@@ -76,7 +76,7 @@ Your assignment is to build a complete, production-ready REST API for a coffee s
    - Must calculate the total price correctly based on base prices and variations
    - **Critical Requirement:** Integrate with the payment processing mock service
      ```http
-     GET https://challenge.trio.dev/api/v1/payment?value={TOTAL_AMOUNT}
+     POST https://challenge.trio.dev/api/v1/payment?value={TOTAL_AMOUNT}
      ```
    - Must display the complete payment service response in the terminal
    - Orders should ONLY be created if the payment service returns a successful response
@@ -96,7 +96,7 @@ Your assignment is to build a complete, production-ready REST API for a coffee s
      - **Waiting** → **Preparation** → **Ready** → **Delivered**
    - **Critical Requirement:** Must integrate with the notification mock service after every successful status update
      ```http
-     GET https://challenge.trio.dev/api/v1/notification?status={ORDER_STATUS}
+     POST https://challenge.trio.dev/api/v1/notification?status={ORDER_STATUS}
      ```
    - Must display the complete notification service response in the terminal
 
